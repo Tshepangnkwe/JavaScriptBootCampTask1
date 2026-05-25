@@ -1,2 +1,2 @@
-# JavascriptBootcampTask1
+# JavaScriptBootCampTask1
 mLab CodeTribe JavaScript Assignments
