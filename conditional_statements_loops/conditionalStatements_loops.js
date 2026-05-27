@@ -144,56 +144,37 @@ do {
 console.log(`Sum of numbers from 1 to 100: ${doWhileSum}`);
 
 // Prompt user to enter a number greater than 10
-const readline = require("readline");
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const readlineSync = require("readline-sync");
 
-function askForNumber() {
-  rl.question("Enter a number greater than 10: ", (input) => {
-    let userNumber = Number(input);
-    if (userNumber > 10 && !isNaN(userNumber)) {
-      console.log(`Thank you! You entered ${userNumber}`);
-      rl.close();
-      // Start guessing game after valid input
-      guessingGame();
-    } else {
-      console.log("Invalid input. Please try again.");
-      askForNumber();
-    }
-  });
-}
-askForNumber();
+// Prompt user to enter a number greater than 10
+let input;
+
+do {
+  input = Number(readlineSync.question("Enter a number greater than 10: "));
+
+  if (isNaN(input) || input <= 10) {
+    console.log("Invalid input. Please enter a number greater than 10.");
+  }
+} while (isNaN(input) || input <= 10);
+
+console.log(`Valid input received: ${input}`);
 
 // Guessing game
-function guessingGame() {
-  const secretNumber = Math.floor(Math.random() * 10) + 1;
-  console.log("Guess the number between 1 and 10!");
-
-  const rl2 = require("readline").createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  function makeGuess() {
-    rl2.question("Your guess: ", (guess) => {
-      let userGuess = Number(guess);
-      if (userGuess === secretNumber) {
-        console.log(`Correct! The number was ${secretNumber}. You won!`);
-        rl2.close();
-      } else if (userGuess > secretNumber) {
-        console.log("Too high! Try again.");
-        makeGuess();
-      } else if (userGuess < secretNumber) {
-        console.log("Too low! Try again.");
-        makeGuess();
-      } else {
-        console.log("Invalid input. Please enter a number.");
-        makeGuess();
-      }
-    });
+const secret = Math.floor(Math.random() * 10) + 1;
+let guess;
+ 
+console.log("Guess the number between 1 and 10!");
+ 
+do {
+  guess = Number(readlineSync.question("Your guess: "));
+ 
+  if (isNaN(guess)) {
+    console.log("Invalid input. Please enter a number.");
+  } else if (guess > secret) {
+    console.log("Too high! Try again.");
+  } else if (guess < secret) {
+    console.log("Too low! Try again.");
   }
-
-  makeGuess();
-}
+} while (isNaN(guess) || guess !== secret);
+ 
+console.log(`Correct! The number was ${secret}. You won!`);
